@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+	<AddIn Type="Command">
+		<Name>ElementIdFunction</Name>
+		<Assembly>ElementIdFunction.dll</Assembly>
+		<ClientId>F3A2ED0A-8A83-4D33-996C-6D39DD7EFDEC</ClientId>
+		<FullClassName>ElementIdFunction.Command</FullClassName>
+		<Text>ElementIdFunction</Text>
+		<Description>ElementIdFunction</Description>
+		<VisibilityMode>AlwaysVisible</VisibilityMode>
+		<VendorId>BoldStd</VendorId>
+		<VendorDescription>BoldStd, http://boldstd.it/ </VendorDescription>
+	</AddIn>
+</RevitAddIns>
