@@ -30,8 +30,8 @@ namespace ElementIdFunction
         private void InitializeComponent()
         {
             this.functionGroupBox = new System.Windows.Forms.GroupBox();
-            this.functionListBox = new System.Windows.Forms.ListBox();
             this.okButton = new System.Windows.Forms.Button();
+            this.functionListBox = new System.Windows.Forms.ListBox();
             this.functionGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -46,6 +46,16 @@ namespace ElementIdFunction
             this.functionGroupBox.TabStop = false;
             this.functionGroupBox.Text = "List of ElementsID";
             // 
+            // okButton
+            // 
+            this.okButton.Location = new System.Drawing.Point(221, 416);
+            this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.TabIndex = 1;
+            this.okButton.Text = "Close";
+            this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
+            // 
             // functionListBox
             // 
             this.functionListBox.FormattingEnabled = true;
@@ -55,27 +65,16 @@ namespace ElementIdFunction
             this.functionListBox.Size = new System.Drawing.Size(289, 388);
             this.functionListBox.TabIndex = 0;
             // 
-            // okButton
-            // 
-            this.okButton.Location = new System.Drawing.Point(221, 416);
-            this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 1;
-            this.okButton.Text = "Close";
-            this.okButton.UseVisualStyleBackColor = true;
-            // 
             // ElementIdFunctionWF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(327, 474);
             this.Controls.Add(this.functionGroupBox);
-            this.CancelButton = this.okButton;
-            this.Name = "ElementIdFunctionWF";
-            this.Text = "ElementIdFunctionWF";
             this.MaximizeBox = false;
-            this.MinimizeBox = true;
+            this.Name = "ElementIdFunctionWF";
             this.ShowInTaskbar = false;
+            this.Text = "Element Id Function WF";
             this.functionGroupBox.ResumeLayout(false);
             this.ResumeLayout(false);
 

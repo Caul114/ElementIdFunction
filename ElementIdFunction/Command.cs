@@ -107,7 +107,8 @@ namespace ElementIdFunction
 
             // Display them in a form
             ElementIdFunctionWF displayForm = new ElementIdFunctionWF(this);
-            displayForm.ShowDialog();
+            displayForm.Show();
+            displayForm.TopMost = true;
 
             return Autodesk.Revit.UI.Result.Succeeded;
         }

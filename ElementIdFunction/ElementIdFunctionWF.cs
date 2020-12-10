@@ -24,5 +24,10 @@ namespace ElementIdFunction
             // Set the data source of the ListBox control
             functionListBox.DataSource = dataBuffer.Elements;
         }
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
