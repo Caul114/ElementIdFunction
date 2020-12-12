@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Windows.Forms;
 
 namespace ElementIdFunction
 {
@@ -17,8 +17,9 @@ namespace ElementIdFunction
     public class Command : IExternalCommand
     {
         #region Private data members
-        Autodesk.Revit.DB.Element m_slab = null;      // Store the selected element
-        private ArrayList elementsList;               // Store the list of the elements selected
+        Element m_slab = null;      // Store the selected element
+        private ArrayList elementsList;                 // Store the list of the elements selected
+        private string _prova;
         #endregion
 
 
@@ -26,11 +27,11 @@ namespace ElementIdFunction
         /// <summary>
         /// With the selected elements, export the list of all its id
         /// </summary>
-        public ArrayList Elements
+        public string Element
         {
             get
             {
-                return elementsList;
+                return _prova;
             }
         }
         #endregion
@@ -43,7 +44,7 @@ namespace ElementIdFunction
         public Command()
         {
             // Construct the data members for the property
-            elementsList = new ArrayList();
+            _prova = Element;
         }
         #endregion
 
@@ -67,51 +68,39 @@ namespace ElementIdFunction
         /// the operation.</returns>
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            UIApplication revit = commandData.Application;
-
-            // Get the selected view
-            UIDocument uidoc = revit.ActiveUIDocument;
-            Selection choices = uidoc.Selection;
-            ElementSet collection = new ElementSet();
-            foreach (ElementId elementId in choices.GetElementIds())
-            {
-                collection.Insert(uidoc.Document.GetElement(elementId));
-            }
-
-            // If the item is not selected, it prompts you to select at least one
-            foreach (Element e in collection)
-            {
-                m_slab = e as Element;
-                if (null == m_slab)
-                {
-                    message = "Please select an element.";
-                    return Autodesk.Revit.UI.Result.Failed;
-                }
-            }
-
-            // Get all elements id
-            foreach (Element e in collection)
-            {
-                // With the element selected, judge if the Id of the element exists, 
-                // if it doesn't exist, it should be zero.                
-                if (e.Id == null)
-                {
-                    elementsList.Add("No element");
-                }
-                else
-                {
-                    elementsList.Add(e.Id.ToString());
-                }
-
-            }
+            string ciao = GetPickObject(commandData.Application);
+            MessageBox.Show(ciao, "Parameter : ");
 
             // Display them in a form
             ElementIdFunctionWF displayForm = new ElementIdFunctionWF(this);
             displayForm.Show();
             displayForm.TopMost = true;
 
-            return Autodesk.Revit.UI.Result.Succeeded;
+            return Result.Succeeded;
         }
         #endregion
+
+        public string GetPickObject(UIApplication uiapp)
+        {
+            string risultato = null; 
+
+            // Get the selected view
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            Selection choices = uidoc.Selection;
+
+            Reference pickedObj = uidoc.Selection.PickObject(ObjectType.Element);
+            ElementId eleId = pickedObj.ElementId;
+            Element ele = uidoc.Document.GetElement(eleId);
+
+            if (pickedObj != null)
+            {
+                Parameter pardistinta = ele.LookupParameter("BOLD_Distinta");
+                return risultato = pardistinta.AsString();
+            }
+            else
+            {
+                return risultato = "Non hai selezionato nulla";
+            }
+        }
     }
 }
