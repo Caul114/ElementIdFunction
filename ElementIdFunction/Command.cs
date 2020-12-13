@@ -17,9 +17,7 @@ namespace ElementIdFunction
     public class Command : IExternalCommand
     {
         #region Private data members
-        Element m_slab = null;      // Store the selected element
         private ArrayList elementsList;                 // Store the list of the elements selected
-        private string _prova;
         #endregion
 
 
@@ -27,11 +25,11 @@ namespace ElementIdFunction
         /// <summary>
         /// With the selected elements, export the list of all its id
         /// </summary>
-        public string Element
+        public ArrayList Element
         {
             get
             {
-                return _prova;
+                return elementsList;
             }
         }
         #endregion
@@ -44,7 +42,7 @@ namespace ElementIdFunction
         public Command()
         {
             // Construct the data members for the property
-            _prova = Element;
+            elementsList = new ArrayList();
         }
         #endregion
 
@@ -68,19 +66,18 @@ namespace ElementIdFunction
         /// the operation.</returns>
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            string ciao = GetPickObject(commandData.Application);
-            MessageBox.Show(ciao, "Parameter : ");
+            GetPickObject(commandData.Application);
 
-            // Display them in a form
+            // Display the form
             ElementIdFunctionWF displayForm = new ElementIdFunctionWF(this);
             displayForm.Show();
-            displayForm.TopMost = true;
+            //displayForm.TopMost = true;
 
             return Result.Succeeded;
         }
         #endregion
 
-        public string GetPickObject(UIApplication uiapp)
+        private void GetPickObject(UIApplication uiapp)
         {
             string risultato = null; 
 
@@ -88,6 +85,7 @@ namespace ElementIdFunction
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Selection choices = uidoc.Selection;
 
+            // Get the single element
             Reference pickedObj = uidoc.Selection.PickObject(ObjectType.Element);
             ElementId eleId = pickedObj.ElementId;
             Element ele = uidoc.Document.GetElement(eleId);
@@ -95,12 +93,14 @@ namespace ElementIdFunction
             if (pickedObj != null)
             {
                 Parameter pardistinta = ele.LookupParameter("BOLD_Distinta");
-                return risultato = pardistinta.AsString();
+                risultato = pardistinta.AsString();
+                MessageBox.Show(risultato, "Parameter : ");
+                elementsList.Add(risultato);
             }
             else
             {
-                return risultato = "Non hai selezionato nulla";
-            }
+                risultato = "Non hai selezionato nulla";
+            }        
         }
     }
 }

@@ -31,9 +31,9 @@ namespace ElementIdFunction
         {
             this.functionGroupBox = new System.Windows.Forms.GroupBox();
             this.pickerButton = new System.Windows.Forms.Button();
+            this.functionListBox = new System.Windows.Forms.ListBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.okButton = new System.Windows.Forms.Button();
-            this.functionListBox = new System.Windows.Forms.ListBox();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.functionGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -56,11 +56,20 @@ namespace ElementIdFunction
             // 
             this.pickerButton.Location = new System.Drawing.Point(7, 31);
             this.pickerButton.Name = "pickerButton";
-            this.pickerButton.Size = new System.Drawing.Size(289, 23);
+            this.pickerButton.Size = new System.Drawing.Size(289, 32);
             this.pickerButton.TabIndex = 2;
             this.pickerButton.Text = "Cattura l\'oggetto";
             this.pickerButton.UseVisualStyleBackColor = false;
             this.pickerButton.Click += new System.EventHandler(this.pickerButton_Click);
+            // 
+            // functionListBox
+            // 
+            this.functionListBox.FormattingEnabled = true;
+            this.functionListBox.ItemHeight = 16;
+            this.functionListBox.Location = new System.Drawing.Point(7, 294);
+            this.functionListBox.Name = "functionListBox";
+            this.functionListBox.Size = new System.Drawing.Size(289, 164);
+            this.functionListBox.TabIndex = 0;
             // 
             // pictureBox1
             // 
@@ -79,15 +88,6 @@ namespace ElementIdFunction
             this.okButton.Text = "Close";
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
-            // 
-            // functionListBox
-            // 
-            this.functionListBox.FormattingEnabled = true;
-            this.functionListBox.ItemHeight = 16;
-            this.functionListBox.Location = new System.Drawing.Point(7, 294);
-            this.functionListBox.Name = "functionListBox";
-            this.functionListBox.Size = new System.Drawing.Size(289, 164);
-            this.functionListBox.TabIndex = 0;
             // 
             // dataGridView1
             // 

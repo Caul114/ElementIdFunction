@@ -1,4 +1,6 @@
 ﻿using Autodesk.Revit.UI;
+using Autodesk.Revit.ApplicationServices;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,12 +16,14 @@ namespace ElementIdFunction
 {
     public partial class ElementIdFunctionWF : Form
     {
+        Command _databuffer = new Command();
+
         public ElementIdFunctionWF(Command dataBuffer)
         {
             InitializeComponent();
 
             // Set the data source of the ListBox control
-            functionListBox.DataSource = dataBuffer.Element;
+            _databuffer = dataBuffer;
         }
 
         private void okButton_Click(object sender, EventArgs e)
@@ -27,12 +31,10 @@ namespace ElementIdFunction
             this.Close();
         }
 
-        Command command = new Command();
-
+        
         private void pickerButton_Click(object sender, EventArgs e)
         {
-            string ciao = command.Element;
-            functionListBox.DataSource = ciao;
+            functionListBox.DataSource = _databuffer.Element;
         }
 
 
