@@ -12,6 +12,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Data.OleDb;
+using Microsoft.Office.Interop;
+
 namespace ElementIdFunction
 {
     public partial class ElementIdFunctionWF : Form
@@ -34,8 +37,29 @@ namespace ElementIdFunction
         
         private void pickerButton_Click(object sender, EventArgs e)
         {
-            functionListBox.DataSource = _databuffer.Element;
+            var list = _databuffer.Element;
+            functionListBox.DataSource = list;
+            string value = list[0].ToString();
+            MessageBox.Show(value, "Parameter : ");
         }
+
+        //private void ElementIdFunctionWF_Load(object sender, EventArgs e)
+        //{
+        //    string name = "Foglio1";
+        //    String constr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" +
+        //                "C:\\DatiLDB\\ExcelData\\DBProva1.xlsx" +
+        //                ";Extended Properties='Excel 12.0 XML;HDR=YES;';";
+
+        //    OleDbConnection con = new OleDbConnection(constr);
+        //    OleDbCommand oconn = new OleDbCommand("Select * From [" + name + "$]", con);
+        //    con.Open();
+
+        //    OleDbDataAdapter sda = new OleDbDataAdapter(oconn);
+        //    DataTable data = new DataTable();
+        //    sda.Fill(data);
+        //    dataGridView1.DataSource = data;
+        //}
+
 
 
 

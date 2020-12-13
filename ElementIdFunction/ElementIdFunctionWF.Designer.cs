@@ -111,6 +111,7 @@ namespace ElementIdFunction
             this.Name = "ElementIdFunctionWF";
             this.ShowInTaskbar = false;
             this.Text = "Element Id Function WF";
+            //this.Load += new System.EventHandler(this.ElementIdFunctionWF_Load);
             this.functionGroupBox.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();

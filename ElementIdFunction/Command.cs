@@ -93,8 +93,7 @@ namespace ElementIdFunction
             if (pickedObj != null)
             {
                 Parameter pardistinta = ele.LookupParameter("BOLD_Distinta");
-                risultato = pardistinta.AsString();
-                MessageBox.Show(risultato, "Parameter : ");
+                risultato = pardistinta.AsString();                
                 elementsList.Add(risultato);
             }
             else
