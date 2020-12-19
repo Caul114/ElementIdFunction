@@ -29,59 +29,31 @@ namespace ElementIdFunction
         /// </summary>
         private void InitializeComponent()
         {
-            this.functionGroupBox = new System.Windows.Forms.GroupBox();
-            this.pickerButton = new System.Windows.Forms.Button();
-            this.functionListBox = new System.Windows.Forms.ListBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.functionGroupBox1 = new System.Windows.Forms.GroupBox();
             this.okButton = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.functionGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.functionListBox1 = new System.Windows.Forms.ListBox();
+            this.functionGroupBox2 = new System.Windows.Forms.GroupBox();
+            this.functionListBox2 = new System.Windows.Forms.ListBox();
+            this.functionGroupBox3 = new System.Windows.Forms.GroupBox();
+            this.functionlistBox3 = new System.Windows.Forms.ListBox();
+            this.functionGroupBox1.SuspendLayout();
+            this.functionGroupBox2.SuspendLayout();
+            this.functionGroupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
-            // functionGroupBox
+            // functionGroupBox1
             // 
-            this.functionGroupBox.Controls.Add(this.pickerButton);
-            this.functionGroupBox.Controls.Add(this.functionListBox);
-            this.functionGroupBox.Controls.Add(this.pictureBox1);
-            this.functionGroupBox.Location = new System.Drawing.Point(13, 12);
-            this.functionGroupBox.Name = "functionGroupBox";
-            this.functionGroupBox.Size = new System.Drawing.Size(302, 464);
-            this.functionGroupBox.TabIndex = 0;
-            this.functionGroupBox.TabStop = false;
-            this.functionGroupBox.Text = "Famiglia scelta";
-            // 
-            // pickerButton
-            // 
-            this.pickerButton.Location = new System.Drawing.Point(7, 31);
-            this.pickerButton.Name = "pickerButton";
-            this.pickerButton.Size = new System.Drawing.Size(289, 32);
-            this.pickerButton.TabIndex = 2;
-            this.pickerButton.Text = "Cattura l\'oggetto";
-            this.pickerButton.UseVisualStyleBackColor = false;
-            this.pickerButton.Click += new System.EventHandler(this.pickerButton_Click);
-            // 
-            // functionListBox
-            // 
-            this.functionListBox.FormattingEnabled = true;
-            this.functionListBox.ItemHeight = 16;
-            this.functionListBox.Location = new System.Drawing.Point(7, 294);
-            this.functionListBox.Name = "functionListBox";
-            this.functionListBox.Size = new System.Drawing.Size(289, 164);
-            this.functionListBox.TabIndex = 0;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(7, 69);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(289, 219);
-            this.pictureBox1.TabIndex = 1;
-            this.pictureBox1.TabStop = false;
+            this.functionGroupBox1.Controls.Add(this.functionListBox1);
+            this.functionGroupBox1.Location = new System.Drawing.Point(13, 12);
+            this.functionGroupBox1.Name = "functionGroupBox1";
+            this.functionGroupBox1.Size = new System.Drawing.Size(302, 705);
+            this.functionGroupBox1.TabIndex = 0;
+            this.functionGroupBox1.TabStop = false;
+            this.functionGroupBox1.Text = "Parametri elemento Meth";
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(892, 453);
+            this.okButton.Location = new System.Drawing.Point(973, 730);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 1;
@@ -89,43 +61,81 @@ namespace ElementIdFunction
             this.okButton.UseVisualStyleBackColor = true;
             this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
-            // dataGridView1
+            // functionListBox1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(349, 43);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(618, 394);
-            this.dataGridView1.TabIndex = 2;
+            this.functionListBox1.FormattingEnabled = true;
+            this.functionListBox1.ItemHeight = 16;
+            this.functionListBox1.Location = new System.Drawing.Point(6, 30);
+            this.functionListBox1.Name = "functionListBox1";
+            this.functionListBox1.Size = new System.Drawing.Size(289, 660);
+            this.functionListBox1.TabIndex = 0;
+            // 
+            // functionGroupBox2
+            // 
+            this.functionGroupBox2.Controls.Add(this.functionListBox2);
+            this.functionGroupBox2.Location = new System.Drawing.Point(343, 12);
+            this.functionGroupBox2.Name = "functionGroupBox2";
+            this.functionGroupBox2.Size = new System.Drawing.Size(302, 705);
+            this.functionGroupBox2.TabIndex = 1;
+            this.functionGroupBox2.TabStop = false;
+            this.functionGroupBox2.Text = "Parametri elemento Prop";
+            // 
+            // functionListBox2
+            // 
+            this.functionListBox2.FormattingEnabled = true;
+            this.functionListBox2.ItemHeight = 16;
+            this.functionListBox2.Location = new System.Drawing.Point(6, 30);
+            this.functionListBox2.Name = "functionListBox2";
+            this.functionListBox2.Size = new System.Drawing.Size(289, 660);
+            this.functionListBox2.TabIndex = 0;
+            // 
+            // functionGroupBox3
+            // 
+            this.functionGroupBox3.Controls.Add(this.functionlistBox3);
+            this.functionGroupBox3.Location = new System.Drawing.Point(677, 12);
+            this.functionGroupBox3.Name = "functionGroupBox3";
+            this.functionGroupBox3.Size = new System.Drawing.Size(302, 705);
+            this.functionGroupBox3.TabIndex = 2;
+            this.functionGroupBox3.TabStop = false;
+            this.functionGroupBox3.Text = "Parametri famiglia dell\'elemento";
+            // 
+            // functionlistBox3
+            // 
+            this.functionlistBox3.FormattingEnabled = true;
+            this.functionlistBox3.ItemHeight = 16;
+            this.functionlistBox3.Location = new System.Drawing.Point(6, 30);
+            this.functionlistBox3.Name = "functionlistBox3";
+            this.functionlistBox3.Size = new System.Drawing.Size(289, 660);
+            this.functionlistBox3.TabIndex = 0;
             // 
             // ElementIdFunctionWF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(991, 488);
-            this.Controls.Add(this.dataGridView1);
+            this.ClientSize = new System.Drawing.Size(1060, 765);
+            this.Controls.Add(this.functionGroupBox3);
+            this.Controls.Add(this.functionGroupBox2);
             this.Controls.Add(this.okButton);
-            this.Controls.Add(this.functionGroupBox);
+            this.Controls.Add(this.functionGroupBox1);
             this.MaximizeBox = false;
             this.Name = "ElementIdFunctionWF";
             this.ShowInTaskbar = false;
             this.Text = "Element Id Function WF";
-            //this.Load += new System.EventHandler(this.ElementIdFunctionWF_Load);
-            this.functionGroupBox.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.functionGroupBox1.ResumeLayout(false);
+            this.functionGroupBox2.ResumeLayout(false);
+            this.functionGroupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox functionGroupBox;
+        private System.Windows.Forms.GroupBox functionGroupBox1;
         private System.Windows.Forms.Button okButton;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Button pickerButton;
-        private System.Windows.Forms.ListBox functionListBox;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.ListBox functionListBox1;
+        private System.Windows.Forms.GroupBox functionGroupBox2;
+        private System.Windows.Forms.ListBox functionListBox2;
+        private System.Windows.Forms.GroupBox functionGroupBox3;
+        private System.Windows.Forms.ListBox functionlistBox3;
     }
 }

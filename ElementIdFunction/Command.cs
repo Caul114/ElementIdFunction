@@ -17,7 +17,12 @@ namespace ElementIdFunction
     public class Command : IExternalCommand
     {
         #region Private data members
-        private ArrayList elementsList;                 // Store the list of the elements selected
+        private ArrayList arrayList;                          // Store the list of the parameters selected
+        private ArrayList elementParWithMeth;                 // Store the list of the element parameters selected
+        private ArrayList elementParWithProp;                 // Store the list of the element parameters selected
+        private ArrayList familyPar;                 // Store the list of the element parameters selected
+
+
         #endregion
 
 
@@ -25,11 +30,44 @@ namespace ElementIdFunction
         /// <summary>
         /// With the selected elements, export the list of all its id
         /// </summary>
-        public ArrayList Element
+        public ArrayList Elements
         {
             get
             {
-                return elementsList;
+                return arrayList;
+            }
+        }
+
+        /// <summary>
+        /// With the selected elements, export the list of all its id
+        /// </summary>
+        public ArrayList GetElParMet
+        {
+            get
+            {
+                return elementParWithMeth;
+            }
+        }
+
+        /// <summary>
+        /// With the selected elements, export the list of all its id
+        /// </summary>
+        public ArrayList GetElParProp
+        {
+            get
+            {
+                return elementParWithProp;
+            }
+        }
+
+        /// <summary>
+        /// With the selected elements, export the list of all its id
+        /// </summary>
+        public ArrayList GetFamilyPar
+        {
+            get
+            {
+                return familyPar;
             }
         }
         #endregion
@@ -42,12 +80,15 @@ namespace ElementIdFunction
         public Command()
         {
             // Construct the data members for the property
-            elementsList = new ArrayList();
+            arrayList = new ArrayList();
+            elementParWithMeth = new ArrayList();
+            elementParWithProp = new ArrayList();
+            familyPar = new ArrayList();
         }
         #endregion
 
 
-        #region Interface implemetation
+        #region Interface implementation
         /// <summary>
         /// Implement this method as an external command for Revit.
         /// </summary>
@@ -66,7 +107,12 @@ namespace ElementIdFunction
         /// the operation.</returns>
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            GetPickObject(commandData.Application);
+            Reference reference = GetPickObject(commandData.Application);
+            if(reference == null) { return Result.Failed; }
+            //GetDimensionsList(commandData.Application);
+            GetParametersWithMethod(commandData.Application, reference);
+            GetParametersWithProperty(commandData.Application, reference);
+            GetParametersOfFamily(commandData.Application, reference);
 
             // Display the form
             ElementIdFunctionWF displayForm = new ElementIdFunctionWF(this);
@@ -77,11 +123,44 @@ namespace ElementIdFunction
         }
         #endregion
 
-        private void GetPickObject(UIApplication uiapp)
+        /// <summary>
+        ///   La subroutine che cattura un singolo oggetto
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <param name="uiapp">L'oggetto Applicazione di Revit</param>m>
+        /// 
+        private Reference GetPickObject(UIApplication uiapp)
         {
-            string risultato = null; 
+            string risultato = null;
 
             // Get the selected view
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            Selection choices = uidoc.Selection;
+
+            // Get the single element
+            Reference pickedObj = uidoc.Selection.PickObject(ObjectType.Element);
+
+            if (pickedObj != null)
+            {
+                return pickedObj;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        ///   La subroutine che cattura un singolo oggetto
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <param name="uiapp">L'oggetto Applicazione di Revit</param>m>
+        /// 
+        private void GetDimensionsList(UIApplication uiapp)
+        {
+            // Chiamo la vista attiva e seleziono gli elementi che mi servono
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Selection choices = uidoc.Selection;
 
@@ -90,16 +169,224 @@ namespace ElementIdFunction
             ElementId eleId = pickedObj.ElementId;
             Element ele = uidoc.Document.GetElement(eleId);
 
-            if (pickedObj != null)
+            // Se i parametri Lughezza e Area sono presenti, ricava i loro valori e li aggiunge alla lista, 
+            // altrimenti scrivi una stringa vuota
+            Parameter parLunghezza = ele.LookupParameter("Lunghezza");
+            string value = parLunghezza.AsString();
+            arrayList.Add("Lunghezza:");
+            if (value == null)
             {
-                Parameter pardistinta = ele.LookupParameter("BOLD_Distinta");
-                risultato = pardistinta.AsString();                
-                elementsList.Add(risultato);
+                arrayList.Add("-----");
             }
             else
             {
-                risultato = "Non hai selezionato nulla";
-            }        
+                arrayList.Add(value);
+            }
+            arrayList.Add("");
+
+            Parameter parArea = ele.LookupParameter("Area");
+            value = parArea.AsString();
+            arrayList.Add("Area:");
+            if (value == null)
+            {
+                arrayList.Add("-----");
+            }
+            else
+            {
+                arrayList.Add(value);
+            }
+
+            Parameter parVolume = ele.LookupParameter("Volume");
+            value = parVolume.AsString();
+            arrayList.Add("Area:");
+            if (value == null)
+            {
+                arrayList.Add("-----");
+            }
+            else
+            {
+                arrayList.Add(value);
+            }
+
+            arrayList.Add("");
+        }
+
+
+        /// <summary>
+        ///   La subroutine che cattura i parametri dell'ELEMENTO scelto con un METODO
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <param name="uiapp">L'oggetto Applicazione di Revit</param>m>
+        /// 
+        private void GetParametersWithMethod(UIApplication uiapp, Reference reference)
+        {
+            // Chiamo la vista attiva e seleziono gli elementi che mi servono
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            ElementId eleId = reference.ElementId;
+            Element ele = uidoc.Document.GetElement(eleId);
+            elementParWithMeth = GetParamValuesFromMethod(ele);
+        }
+
+        /// <summary>
+        /// Restituisce tutti i valori dei parametri ritenuti rilevanti per l'elemento dato sotto forma di ArrayList.
+        /// </summary>
+        private ArrayList GetParamValuesFromMethod(Element e)
+        {
+            // Two choices: 
+            // Element.Parameters property -- Retrieves a set containing all the parameters.
+            // GetOrderedParameters method -- Gets the visible parameters in order.
+
+            //IList<Parameter> ps = e.Parameters as IList<Parameter>;
+            IList<Parameter> ps = e.GetOrderedParameters();
+
+            ArrayList param_values = new ArrayList(ps.Count);
+
+            foreach (Parameter p in ps)
+            {
+                // AsValueString visualizza il valore così come lo vede l'utente. 
+                // In alcuni casi, il valore del database sottostante 
+                // restituito da AsInteger, AsDouble, ecc., potrebbe essere più rilevante.
+
+                param_values.Add(string.Format("{0}={1}", p.Definition.Name, p.AsValueString()));
+            }
+
+            // Ordina i parametri in ordine alfabetico
+
+            // Dichiara una List<string> temporanea e la riempio 
+            List<string> temp = new List<string>();
+            foreach (var item in param_values)
+            {
+                temp.Add((string)item);
+            }
+            // Crea un IOrderedEnumerable per ordinare la List<string>
+            var ordered = temp.OrderBy(x => x);
+            // Dichiara e riempie una nuova ArrayList per il risultato finale
+            ArrayList stringsResult = new ArrayList();
+            foreach (var item in ordered)
+            {
+                stringsResult.Add(item);
+            }
+
+            // Ritorna l'ArrayList
+            return stringsResult;
+        }
+
+        /// <summary>
+        ///   La subroutine che cattura i parametri dell'ELEMENTO scelto con con una PROPRIETA
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <param name="uiapp">L'oggetto Applicazione di Revit</param>m>
+        /// 
+        private void GetParametersWithProperty(UIApplication uiapp, Reference reference)
+        {
+            // Chiamo la vista attiva e seleziono gli elementi che mi servono
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            ElementId eleId = reference.ElementId;
+            Element ele = uidoc.Document.GetElement(eleId);
+            familyPar = GetParamValuesFromProperty(ele);
+        }
+
+        /// <summary>
+        /// Restituisce tutti i valori dei parametri ritenuti rilevanti per l'elemento dato sotto forma di ArrayList.
+        /// </summary>
+        private ArrayList GetParamValuesFromProperty(Element e)
+        {
+            // Two choices: 
+            // Element.Parameters property -- Retrieves a set containing all the parameters.
+            // GetOrderedParameters method -- Gets the visible parameters in order.
+
+            ParameterSet ps = e.Parameters;
+            //IList<Parameter> ps = e.GetOrderedParameters();
+
+            ArrayList param_values = new ArrayList(ps.Size);
+
+            foreach (Parameter p in ps)
+            {
+                // AsValueString displays the value as the 
+                // user sees it. In some cases, the underlying
+                // database value returned by AsInteger, AsDouble,
+                // etc., may be more relevant.
+                // AsValueString visualizza il valore così come lo vede l'utente. 
+                // In alcuni casi, il valore del database sottostante 
+                // restituito da AsInteger, AsDouble, ecc., potrebbe essere più rilevante.
+
+                param_values.Add(string.Format("{0}={1}", p.Definition.Name, p.AsValueString()));
+            }
+
+            // Ordina i parametri in ordine alfabetico
+
+            // Dichiara una List<string> temporanea e la riempio 
+            List<string> temp = new List<string>();
+            foreach (var item in param_values)
+            {
+                temp.Add((string)item);
+            }
+            // Crea un IOrderedEnumerable per ordinare la List<string>
+            var ordered = temp.OrderBy(x => x);
+            // Dichiara e riempie una nuova ArrayList per il risultato finale
+            ArrayList stringsResult = new ArrayList();
+            foreach (var item in ordered)
+            {
+                stringsResult.Add(item);
+            }
+
+            // Ritorna l'ArrayList
+            return stringsResult;
+        }
+
+        /// <summary>
+        ///   La subroutine che cattura i parametri dell'ELEMENTO scelto con con una PROPRIETA
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <param name="uiapp">L'oggetto Applicazione di Revit</param>m>
+        /// 
+        private void GetParametersOfFamily(UIApplication uiapp, Reference reference)
+        {
+            // Chiamo la vista attiva e seleziono gli elementi che mi servono
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            ElementId eleId = reference.ElementId;
+            Element ele = uidoc.Document.GetElement(eleId);
+            elementParWithProp = GetParametersElementType(uiapp, ele);
+        }
+
+        /// <summary>
+        /// Restituisce tutti i valori dei parametri ritenuti rilevanti per l'elemento dato sotto forma di ArrayList.
+        /// </summary>
+        private ArrayList GetParametersElementType(UIApplication uiapp, Element e)
+        {
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            Document doc = uidoc.Document;
+            //ParameterSet parameters = e.Parameters;
+            ElementType eleType = doc.GetElement(e.GetTypeId()) as ElementType;
+            ParameterSet parameters = eleType.Parameters;
+
+            ArrayList arr = new ArrayList();
+            foreach (Parameter param in parameters)
+            {
+                 arr.Add(String.Format("{0}  -  {1}\n", param.Definition.Name, param.AsValueString()));
+            }
+
+            // Ordina i parametri in ordine alfabetico
+
+            // Dichiara una List<string> temporanea e la riempio 
+            List<string> temp = new List<string>();
+            foreach (var item in arr)
+            {
+                temp.Add((string)item);
+            }
+            // Crea un IOrderedEnumerable per ordinare la List<string>
+            var ordered = temp.OrderBy(x => x);
+            // Dichiara e riempie una nuova ArrayList per il risultato finale
+            ArrayList stringsResult = new ArrayList();
+            foreach (var item in ordered)
+            {
+                stringsResult.Add(item);
+            }
+
+            return stringsResult;
         }
     }
 }
