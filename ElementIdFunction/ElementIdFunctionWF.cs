@@ -28,6 +28,7 @@ namespace ElementIdFunction
             functionListBox1.DataSource = dataBuffer.GetElParMet;
             functionListBox2.DataSource = dataBuffer.GetElParProp;
             functionlistBox3.DataSource = dataBuffer.GetFamilyPar;
+            functionListBox4.DataSource = dataBuffer.Elements;
         }
 
         private void okButton_Click(object sender, EventArgs e)

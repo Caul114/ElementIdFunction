@@ -30,15 +30,18 @@ namespace ElementIdFunction
         private void InitializeComponent()
         {
             this.functionGroupBox1 = new System.Windows.Forms.GroupBox();
-            this.okButton = new System.Windows.Forms.Button();
             this.functionListBox1 = new System.Windows.Forms.ListBox();
+            this.okButton = new System.Windows.Forms.Button();
             this.functionGroupBox2 = new System.Windows.Forms.GroupBox();
             this.functionListBox2 = new System.Windows.Forms.ListBox();
             this.functionGroupBox3 = new System.Windows.Forms.GroupBox();
             this.functionlistBox3 = new System.Windows.Forms.ListBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.functionListBox4 = new System.Windows.Forms.ListBox();
             this.functionGroupBox1.SuspendLayout();
             this.functionGroupBox2.SuspendLayout();
             this.functionGroupBox3.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // functionGroupBox1
@@ -51,16 +54,6 @@ namespace ElementIdFunction
             this.functionGroupBox1.TabStop = false;
             this.functionGroupBox1.Text = "Parametri elemento Meth";
             // 
-            // okButton
-            // 
-            this.okButton.Location = new System.Drawing.Point(973, 730);
-            this.okButton.Name = "okButton";
-            this.okButton.Size = new System.Drawing.Size(75, 23);
-            this.okButton.TabIndex = 1;
-            this.okButton.Text = "Close";
-            this.okButton.UseVisualStyleBackColor = true;
-            this.okButton.Click += new System.EventHandler(this.okButton_Click);
-            // 
             // functionListBox1
             // 
             this.functionListBox1.FormattingEnabled = true;
@@ -69,6 +62,16 @@ namespace ElementIdFunction
             this.functionListBox1.Name = "functionListBox1";
             this.functionListBox1.Size = new System.Drawing.Size(289, 660);
             this.functionListBox1.TabIndex = 0;
+            // 
+            // okButton
+            // 
+            this.okButton.Location = new System.Drawing.Point(1253, 730);
+            this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.TabIndex = 1;
+            this.okButton.Text = "Close";
+            this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // functionGroupBox2
             // 
@@ -97,7 +100,7 @@ namespace ElementIdFunction
             this.functionGroupBox3.Size = new System.Drawing.Size(302, 705);
             this.functionGroupBox3.TabIndex = 2;
             this.functionGroupBox3.TabStop = false;
-            this.functionGroupBox3.Text = "Parametri famiglia dell\'elemento";
+            this.functionGroupBox3.Text = "Parametri della famiglia";
             // 
             // functionlistBox3
             // 
@@ -108,11 +111,31 @@ namespace ElementIdFunction
             this.functionlistBox3.Size = new System.Drawing.Size(289, 660);
             this.functionlistBox3.TabIndex = 0;
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.functionListBox4);
+            this.groupBox1.Location = new System.Drawing.Point(1011, 12);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(302, 705);
+            this.groupBox1.TabIndex = 3;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Dimensioni dell\'elemento";
+            // 
+            // functionListBox4
+            // 
+            this.functionListBox4.FormattingEnabled = true;
+            this.functionListBox4.ItemHeight = 16;
+            this.functionListBox4.Location = new System.Drawing.Point(6, 30);
+            this.functionListBox4.Name = "functionListBox4";
+            this.functionListBox4.Size = new System.Drawing.Size(289, 660);
+            this.functionListBox4.TabIndex = 0;
+            // 
             // ElementIdFunctionWF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1060, 765);
+            this.ClientSize = new System.Drawing.Size(1340, 765);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.functionGroupBox3);
             this.Controls.Add(this.functionGroupBox2);
             this.Controls.Add(this.okButton);
@@ -124,6 +147,7 @@ namespace ElementIdFunction
             this.functionGroupBox1.ResumeLayout(false);
             this.functionGroupBox2.ResumeLayout(false);
             this.functionGroupBox3.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -137,5 +161,7 @@ namespace ElementIdFunction
         private System.Windows.Forms.ListBox functionListBox2;
         private System.Windows.Forms.GroupBox functionGroupBox3;
         private System.Windows.Forms.ListBox functionlistBox3;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.ListBox functionListBox4;
     }
 }

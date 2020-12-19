@@ -109,7 +109,7 @@ namespace ElementIdFunction
         {
             Reference reference = GetPickObject(commandData.Application);
             if(reference == null) { return Result.Failed; }
-            //GetDimensionsList(commandData.Application);
+            GetDimensionsList(commandData.Application, reference);
             GetParametersWithMethod(commandData.Application, reference);
             GetParametersWithProperty(commandData.Application, reference);
             GetParametersOfFamily(commandData.Application, reference);
@@ -132,8 +132,6 @@ namespace ElementIdFunction
         /// 
         private Reference GetPickObject(UIApplication uiapp)
         {
-            string risultato = null;
-
             // Get the selected view
             UIDocument uidoc = uiapp.ActiveUIDocument;
             Selection choices = uidoc.Selection;
@@ -152,63 +150,56 @@ namespace ElementIdFunction
         }
 
         /// <summary>
-        ///   La subroutine che cattura un singolo oggetto
+        ///   La subroutine che cattura i parametri dimensionali dell'oggetto selezionato
         /// </summary>
         /// <remarks>
         /// </remarks>
         /// <param name="uiapp">L'oggetto Applicazione di Revit</param>m>
         /// 
-        private void GetDimensionsList(UIApplication uiapp)
+        private void GetDimensionsList(UIApplication uiapp, Reference reference)
         {
             // Chiamo la vista attiva e seleziono gli elementi che mi servono
             UIDocument uidoc = uiapp.ActiveUIDocument;
-            Selection choices = uidoc.Selection;
+            ElementId eleId = reference.ElementId;
+            Element element = uidoc.Document.GetElement(eleId);
 
-            // Get the single element
-            Reference pickedObj = uidoc.Selection.PickObject(ObjectType.Element);
-            ElementId eleId = pickedObj.ElementId;
-            Element ele = uidoc.Document.GetElement(eleId);
+            // GetOrderedParameters method -- Ottiene i parametri visibili in ordine.
+            IList<Parameter> parIList = element.GetOrderedParameters();
 
-            // Se i parametri Lughezza e Area sono presenti, ricava i loro valori e li aggiunge alla lista, 
-            // altrimenti scrivi una stringa vuota
-            Parameter parLunghezza = ele.LookupParameter("Lunghezza");
-            string value = parLunghezza.AsString();
-            arrayList.Add("Lunghezza:");
-            if (value == null)
-            {
-                arrayList.Add("-----");
-            }
-            else
-            {
-                arrayList.Add(value);
-            }
-            arrayList.Add("");
+            // Lista dei nomi dei parametri contenuti nella Partizione Dimensioni
+            List<string> parametriDimensionali = new List<string> {
+                    "Lunghezza",
+                    "Area",
+                    "Volume",
+                    "CellH",
+                    "CellH2",
+                    "CellL",
+                    "CellDxH",
+                    "CellSxH"
+                };
 
-            Parameter parArea = ele.LookupParameter("Area");
-            value = parArea.AsString();
-            arrayList.Add("Area:");
-            if (value == null)
-            {
-                arrayList.Add("-----");
-            }
-            else
-            {
-                arrayList.Add(value);
-            }
+            // Se i parametri dimensionali sono presenti, ricava i loro valori e li aggiunge alla lista, 
+            // altrimenti scrive una stringa vuota
 
-            Parameter parVolume = ele.LookupParameter("Volume");
-            value = parVolume.AsString();
-            arrayList.Add("Area:");
-            if (value == null)
+            foreach (Parameter par in parIList)
             {
-                arrayList.Add("-----");
+                foreach (string str in parametriDimensionali)
+                {
+                    if (par.Definition.Name == str)
+                    {
+                        arrayList.Add(par.Definition.Name + ":");
+                        if (par.AsValueString() == null)
+                        {
+                            arrayList.Add("-----");
+                        }
+                        else
+                        {
+                            arrayList.Add(par.AsValueString());
+                        }
+                        arrayList.Add("");
+                    }
+                }   
             }
-            else
-            {
-                arrayList.Add(value);
-            }
-
-            arrayList.Add("");
         }
 
 
