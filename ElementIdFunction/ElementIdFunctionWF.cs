@@ -29,6 +29,7 @@ namespace ElementIdFunction
             functionListBox2.DataSource = dataBuffer.GetElParProp;
             functionlistBox3.DataSource = dataBuffer.GetFamilyPar;
             functionListBox4.DataSource = dataBuffer.Elements;
+            familyTypeTestBox.Text = dataBuffer.GetFamilyType;
         }
 
         private void okButton_Click(object sender, EventArgs e)

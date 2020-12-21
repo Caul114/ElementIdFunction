@@ -38,6 +38,8 @@ namespace ElementIdFunction
             this.functionlistBox3 = new System.Windows.Forms.ListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.functionListBox4 = new System.Windows.Forms.ListBox();
+            this.familyTypeTestBox = new System.Windows.Forms.TextBox();
+            this.familyTypeLabel = new System.Windows.Forms.Label();
             this.functionGroupBox1.SuspendLayout();
             this.functionGroupBox2.SuspendLayout();
             this.functionGroupBox3.SuspendLayout();
@@ -130,11 +132,29 @@ namespace ElementIdFunction
             this.functionListBox4.Size = new System.Drawing.Size(289, 660);
             this.functionListBox4.TabIndex = 0;
             // 
+            // familyTypeTestBox
+            // 
+            this.familyTypeTestBox.Location = new System.Drawing.Point(1017, 731);
+            this.familyTypeTestBox.Name = "familyTypeTestBox";
+            this.familyTypeTestBox.Size = new System.Drawing.Size(206, 22);
+            this.familyTypeTestBox.TabIndex = 4;
+            // 
+            // familyTypeLabel
+            // 
+            this.familyTypeLabel.AutoSize = true;
+            this.familyTypeLabel.Location = new System.Drawing.Point(832, 733);
+            this.familyTypeLabel.Name = "familyTypeLabel";
+            this.familyTypeLabel.Size = new System.Drawing.Size(171, 17);
+            this.familyTypeLabel.TabIndex = 5;
+            this.familyTypeLabel.Text = "Tipo della Famiglia scelta:";
+            // 
             // ElementIdFunctionWF
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1340, 765);
+            this.Controls.Add(this.familyTypeLabel);
+            this.Controls.Add(this.familyTypeTestBox);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.functionGroupBox3);
             this.Controls.Add(this.functionGroupBox2);
@@ -149,6 +169,7 @@ namespace ElementIdFunction
             this.functionGroupBox3.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -163,5 +184,7 @@ namespace ElementIdFunction
         private System.Windows.Forms.ListBox functionlistBox3;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListBox functionListBox4;
+        private System.Windows.Forms.TextBox familyTypeTestBox;
+        private System.Windows.Forms.Label familyTypeLabel;
     }
 }

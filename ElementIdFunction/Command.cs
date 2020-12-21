@@ -20,8 +20,8 @@ namespace ElementIdFunction
         private ArrayList arrayList;                          // Store the list of the parameters selected
         private ArrayList elementParWithMeth;                 // Store the list of the element parameters selected
         private ArrayList elementParWithProp;                 // Store the list of the element parameters selected
-        private ArrayList familyPar;                 // Store the list of the element parameters selected
-
+        private ArrayList familyPar;                          // Store the list of the element parameters selected
+        private string familyType;                            // Store the string value of the family type
 
         #endregion
 
@@ -70,14 +70,25 @@ namespace ElementIdFunction
                 return familyPar;
             }
         }
+
+        /// <summary>
+        /// With the selected elements, export the list of all its id
+        /// </summary>
+        public string GetFamilyType
+        {
+            get
+            {
+                return familyType;
+            }
+        }
         #endregion
 
 
-        #region class public method
-        /// <summary>
-        /// Default constructor of Command
-        /// </summary>
-        public Command()
+    #region class public method
+    /// <summary>
+    /// Default constructor of Command
+    /// </summary>
+    public Command()
         {
             // Construct the data members for the property
             arrayList = new ArrayList();
@@ -109,11 +120,14 @@ namespace ElementIdFunction
         {
             Reference reference = GetPickObject(commandData.Application);
             if(reference == null) { return Result.Failed; }
-            GetDimensionsList(commandData.Application, reference);
+
             GetParametersWithMethod(commandData.Application, reference);
             GetParametersWithProperty(commandData.Application, reference);
             GetParametersOfFamily(commandData.Application, reference);
+            GetDimensionsList(commandData.Application, reference);
+            GetTypeParameterOfFamily(commandData.Application, reference);
 
+            
             // Display the form
             ElementIdFunctionWF displayForm = new ElementIdFunctionWF(this);
             displayForm.Show();
@@ -147,60 +161,7 @@ namespace ElementIdFunction
             {
                 return null;
             }
-        }
-
-        /// <summary>
-        ///   La subroutine che cattura i parametri dimensionali dell'oggetto selezionato
-        /// </summary>
-        /// <remarks>
-        /// </remarks>
-        /// <param name="uiapp">L'oggetto Applicazione di Revit</param>m>
-        /// 
-        private void GetDimensionsList(UIApplication uiapp, Reference reference)
-        {
-            // Chiamo la vista attiva e seleziono gli elementi che mi servono
-            UIDocument uidoc = uiapp.ActiveUIDocument;
-            ElementId eleId = reference.ElementId;
-            Element element = uidoc.Document.GetElement(eleId);
-
-            // GetOrderedParameters method -- Ottiene i parametri visibili in ordine.
-            IList<Parameter> parIList = element.GetOrderedParameters();
-
-            // Lista dei nomi dei parametri contenuti nella Partizione Dimensioni
-            List<string> parametriDimensionali = new List<string> {
-                    "Lunghezza",
-                    "Area",
-                    "Volume",
-                    "CellH",
-                    "CellH2",
-                    "CellL",
-                    "CellDxH",
-                    "CellSxH"
-                };
-
-            // Se i parametri dimensionali sono presenti, ricava i loro valori e li aggiunge alla lista, 
-            // altrimenti scrive una stringa vuota
-
-            foreach (Parameter par in parIList)
-            {
-                foreach (string str in parametriDimensionali)
-                {
-                    if (par.Definition.Name == str)
-                    {
-                        arrayList.Add(par.Definition.Name + ":");
-                        if (par.AsValueString() == null)
-                        {
-                            arrayList.Add("-----");
-                        }
-                        else
-                        {
-                            arrayList.Add(par.AsValueString());
-                        }
-                        arrayList.Add("");
-                    }
-                }   
-            }
-        }
+        }        
 
 
         /// <summary>
@@ -239,7 +200,7 @@ namespace ElementIdFunction
                 // In alcuni casi, il valore del database sottostante 
                 // restituito da AsInteger, AsDouble, ecc., potrebbe essere più rilevante.
 
-                param_values.Add(string.Format("{0}={1}", p.Definition.Name, p.AsValueString()));
+                param_values.Add(string.Format("{0} - {1}", p.Definition.Name, p.AsValueString()));
             }
 
             // Ordina i parametri in ordine alfabetico
@@ -303,7 +264,7 @@ namespace ElementIdFunction
                 // In alcuni casi, il valore del database sottostante 
                 // restituito da AsInteger, AsDouble, ecc., potrebbe essere più rilevante.
 
-                param_values.Add(string.Format("{0}={1}", p.Definition.Name, p.AsValueString()));
+                param_values.Add(string.Format("{0} -- {1}", p.Definition.Name, p.AsValueString()));
             }
 
             // Ordina i parametri in ordine alfabetico
@@ -328,7 +289,7 @@ namespace ElementIdFunction
         }
 
         /// <summary>
-        ///   La subroutine che cattura i parametri dell'ELEMENTO scelto con con una PROPRIETA
+        ///   La subroutine che cattura i parametri della FINESTRA relativa all'elemento scelto
         /// </summary>
         /// <remarks>
         /// </remarks>
@@ -342,7 +303,7 @@ namespace ElementIdFunction
             Element ele = uidoc.Document.GetElement(eleId);
             elementParWithProp = GetParametersElementType(uiapp, ele);
         }
-
+        
         /// <summary>
         /// Restituisce tutti i valori dei parametri ritenuti rilevanti per l'elemento dato sotto forma di ArrayList.
         /// </summary>
@@ -357,7 +318,7 @@ namespace ElementIdFunction
             ArrayList arr = new ArrayList();
             foreach (Parameter param in parameters)
             {
-                 arr.Add(String.Format("{0}  -  {1}\n", param.Definition.Name, param.AsValueString()));
+                 arr.Add(String.Format("{0} --- {1}\n", param.Definition.Name, param.AsValueString()));
             }
 
             // Ordina i parametri in ordine alfabetico
@@ -378,6 +339,91 @@ namespace ElementIdFunction
             }
 
             return stringsResult;
+        }
+
+        /// <summary>
+        ///   La subroutine che cattura i parametri dimensionali dell'oggetto selezionato
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <param name="uiapp">L'oggetto Applicazione di Revit</param>m>
+        /// 
+        private void GetDimensionsList(UIApplication uiapp, Reference reference)
+        {
+            // Chiamo la vista attiva e seleziono gli elementi che mi servono
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            ElementId eleId = reference.ElementId;
+            Element element = uidoc.Document.GetElement(eleId);
+
+            // GetOrderedParameters method -- Ottiene i parametri visibili in ordine.
+            IList<Parameter> parIList = element.GetOrderedParameters();
+
+            // Lista dei nomi dei parametri contenuti nella Partizione Dimensioni
+            List<string> parametriDimensionali = new List<string> {
+                    "Lunghezza",
+                    "Area",
+                    "Volume",
+                    "CellH",
+                    "CellH2",
+                    "CellL",
+                    "CellDxH",
+                    "CellSxH"
+                };
+
+            // Se i parametri dimensionali sono presenti, ricava i loro valori e li aggiunge alla lista, 
+            // altrimenti scrive una stringa vuota
+
+            foreach (Parameter par in parIList)
+            {
+                foreach (string str in parametriDimensionali)
+                {
+                    if (par.Definition.Name == str)
+                    {
+                        arrayList.Add(par.Definition.Name + ":");
+                        if (par.AsValueString() == null)
+                        {
+                            arrayList.Add("-----");
+                        }
+                        else
+                        {
+                            arrayList.Add(par.AsValueString());
+                        }
+                        arrayList.Add("");
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///   La subroutine che cattura il parametro TIPO della FAMIGLIA scelta in formato stringa
+        /// </summary>
+        /// <remarks>
+        /// </remarks>
+        /// <param name="uiapp">L'oggetto Applicazione di Revit</param>m>
+        /// 
+        private void GetTypeParameterOfFamily(UIApplication uiapp, Reference reference)
+        {
+            // Chiamo la vista attiva e seleziono gli elementi che mi servono
+            UIDocument uidoc = uiapp.ActiveUIDocument;
+            ElementId eleId = reference.ElementId;
+            Element ele = uidoc.Document.GetElement(eleId);
+            familyType = GetTypeParameterElementType(uiapp, ele);
+        }
+
+        /// <summary>
+        /// Restituisce tutti i valori dei parametri ritenuti rilevanti per l'elemento dato sotto forma di ArrayList.
+        /// </summary>
+        private string GetTypeParameterElementType(UIApplication uiapp, Element e)
+        {
+            ParameterSet ps = e.Parameters;
+
+            string singleString = null;
+            foreach (Parameter param in ps)
+            {
+                if(param.Definition.Name == "Tipo")
+                    singleString = param.AsValueString();
+            }  
+            return singleString;
         }
     }
 }
