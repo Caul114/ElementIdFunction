@@ -356,43 +356,128 @@ namespace ElementIdFunction
             Element element = uidoc.Document.GetElement(eleId);
 
             // GetOrderedParameters method -- Ottiene i parametri visibili in ordine.
-            IList<Parameter> parIList = element.GetOrderedParameters();
+            //IList<Parameter> parIList = element.GetOrderedParameters();
 
-            // Lista dei nomi dei parametri contenuti nella Partizione Dimensioni
-            List<string> parametriDimensionali = new List<string> {
-                    "Lunghezza",
-                    "Area",
-                    "Volume",
-                    "CellH",
-                    "CellH2",
-                    "CellL",
-                    "CellDxH",
-                    "CellSxH"
-                };
+            // Ottiene tutti i Paramtetri contenuti nei singoli Gruppi di Paramtetri
+            Dictionary<BuiltInParameterGroup, List<BuiltInParameter>> dict = GroupBuiltInParameters(element);
+            // Estrae i parametri che appartengono a Dimensions
+            List<Parameter> pList = ParametersInGroup(element, BuiltInParameterGroup.PG_GEOMETRY);
+            // Li ordina in modo crescente
+            List<Parameter> pListOrdered = pList.OrderBy(x => x.Definition.Name).ToList();
+
+            // Lista dei nomi dei parametri contenuti nella Gruppo Dimensioni
+            //List<string> parametriDimensionali = new List<string> {
+            //        "Lunghezza",
+            //        "Area",
+            //        "Volume",
+            //        "CellH",
+            //        "CellH2",
+            //        "CellL",
+            //        "CellDxH",
+            //        "CellSxH"
+            //    };
 
             // Se i parametri dimensionali sono presenti, ricava i loro valori e li aggiunge alla lista, 
             // altrimenti scrive una stringa vuota
-
-            foreach (Parameter par in parIList)
+            string ctrl = "";
+            foreach (Parameter par in pListOrdered)
             {
-                foreach (string str in parametriDimensionali)
+                // se il nome del parametro è già presente o uguale a BOLD_Distinta, salta a quello dopo
+                if (par.Definition.Name != ctrl && par.Definition.Name != "BOLD_Distinta")
                 {
-                    if (par.Definition.Name == str)
+                    arrayList.Add(par.Definition.Name + ":");
+                    if (par.AsValueString() == null)
                     {
-                        arrayList.Add(par.Definition.Name + ":");
-                        if (par.AsValueString() == null)
-                        {
-                            arrayList.Add("-----");
-                        }
-                        else
-                        {
-                            arrayList.Add(par.AsValueString());
-                        }
-                        arrayList.Add("");
+                        arrayList.Add("-----");
                     }
+                    else if(par.Definition.Name =="Area")
+                    {
+                        double MyString = par.AsDouble();
+                        double newvalueMyString = UnitUtils.ConvertFromInternalUnits(MyString, DisplayUnitType.DUT_SQUARE_METERS);
+                        arrayList.Add(newvalueMyString + " m^2");
+                    }
+                    else
+                    {
+                        arrayList.Add(par.AsValueString());
+                    }
+                    arrayList.Add("");
+
+                    ctrl = par.Definition.Name;
+                }
+                else { continue; } 
+            }
+
+            //foreach (Parameter par in pList)
+            //{
+            //    foreach (string str in parametriDimensionali)
+            //    {
+            //        if (par.Definition.Name == str)
+            //        {
+            //            arrayList.Add(par.Definition.Name + ":");
+            //    if (par.AsValueString() == null)
+            //    {
+            //        arrayList.Add("-----");
+            //    }
+            //    else
+            //    {
+            //        arrayList.Add(par.AsValueString());
+            //    }
+            //    arrayList.Add("");
+            //}
+        }          
+
+        public static Dictionary<BuiltInParameterGroup, List<BuiltInParameter>> GroupBuiltInParameters(Element e)
+        {
+            Dictionary<BuiltInParameterGroup, List<BuiltInParameter>> dict =
+                new Dictionary<BuiltInParameterGroup, List<BuiltInParameter>>();
+
+            foreach (Parameter p in e.Parameters)
+            {
+                if (p.IsShared)
+                    continue;
+
+                if (p.Definition == null)
+                    break;
+
+                if (!dict.ContainsKey(p.Definition.ParameterGroup))
+                {
+                    dict.Add(p.Definition.ParameterGroup, new List<BuiltInParameter>());
+                }
+
+                BuiltInParameter biParam = (p.Definition as InternalDefinition).BuiltInParameter;
+                if (!dict[p.Definition.ParameterGroup].Contains(biParam))
+                {
+                    dict[p.Definition.ParameterGroup].Add(biParam);
                 }
             }
+            return dict;
         }
+
+        public static List<Parameter> ParametersInGroup(Element e, BuiltInParameterGroup g)
+        {
+            Dictionary<BuiltInParameterGroup, List<Parameter>> groupDict = GroupParameters(e);
+            return groupDict.Keys.Contains(g) ? groupDict[g] : null;
+        }
+
+        public static Dictionary<BuiltInParameterGroup, List<Parameter>> GroupParameters(Element e)
+        {
+            Dictionary<BuiltInParameterGroup, List<Parameter>> dict =
+                new Dictionary<BuiltInParameterGroup, List<Parameter>>();
+
+            foreach (Parameter p in e.Parameters)
+            {
+                if (!dict.ContainsKey(p.Definition.ParameterGroup))
+                {
+                    dict.Add(p.Definition.ParameterGroup, new List<Parameter>());
+                }
+
+                dict[p.Definition.ParameterGroup].Add(p);
+            }
+
+            return dict;
+        }
+
+
 
         /// <summary>
         ///   La subroutine che cattura il parametro TIPO della FAMIGLIA scelta in formato stringa
@@ -407,13 +492,13 @@ namespace ElementIdFunction
             UIDocument uidoc = uiapp.ActiveUIDocument;
             ElementId eleId = reference.ElementId;
             Element ele = uidoc.Document.GetElement(eleId);
-            familyType = GetTypeParameterElementType(uiapp, ele);
+            familyType = GetTypeParameterElementType(ele);
         }
 
         /// <summary>
         /// Restituisce tutti i valori dei parametri ritenuti rilevanti per l'elemento dato sotto forma di ArrayList.
         /// </summary>
-        private string GetTypeParameterElementType(UIApplication uiapp, Element e)
+        private string GetTypeParameterElementType(Element e)
         {
             ParameterSet ps = e.Parameters;
 
@@ -423,7 +508,6 @@ namespace ElementIdFunction
                 if(param.Definition.Name == "Tipo")
                     singleString = param.AsValueString();
             }  
-            return singleString;
-        }
+            return singleString;        }
     }
 }

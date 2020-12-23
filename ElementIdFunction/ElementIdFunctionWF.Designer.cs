@@ -51,7 +51,7 @@ namespace ElementIdFunction
             this.functionGroupBox1.Controls.Add(this.functionListBox1);
             this.functionGroupBox1.Location = new System.Drawing.Point(13, 12);
             this.functionGroupBox1.Name = "functionGroupBox1";
-            this.functionGroupBox1.Size = new System.Drawing.Size(302, 705);
+            this.functionGroupBox1.Size = new System.Drawing.Size(302, 992);
             this.functionGroupBox1.TabIndex = 0;
             this.functionGroupBox1.TabStop = false;
             this.functionGroupBox1.Text = "Parametri elemento Meth";
@@ -62,12 +62,12 @@ namespace ElementIdFunction
             this.functionListBox1.ItemHeight = 16;
             this.functionListBox1.Location = new System.Drawing.Point(6, 30);
             this.functionListBox1.Name = "functionListBox1";
-            this.functionListBox1.Size = new System.Drawing.Size(289, 660);
+            this.functionListBox1.Size = new System.Drawing.Size(289, 948);
             this.functionListBox1.TabIndex = 0;
             // 
             // okButton
             // 
-            this.okButton.Location = new System.Drawing.Point(1253, 730);
+            this.okButton.Location = new System.Drawing.Point(1238, 1020);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 1;
@@ -80,7 +80,7 @@ namespace ElementIdFunction
             this.functionGroupBox2.Controls.Add(this.functionListBox2);
             this.functionGroupBox2.Location = new System.Drawing.Point(343, 12);
             this.functionGroupBox2.Name = "functionGroupBox2";
-            this.functionGroupBox2.Size = new System.Drawing.Size(302, 705);
+            this.functionGroupBox2.Size = new System.Drawing.Size(302, 992);
             this.functionGroupBox2.TabIndex = 1;
             this.functionGroupBox2.TabStop = false;
             this.functionGroupBox2.Text = "Parametri elemento Prop";
@@ -91,7 +91,7 @@ namespace ElementIdFunction
             this.functionListBox2.ItemHeight = 16;
             this.functionListBox2.Location = new System.Drawing.Point(6, 30);
             this.functionListBox2.Name = "functionListBox2";
-            this.functionListBox2.Size = new System.Drawing.Size(289, 660);
+            this.functionListBox2.Size = new System.Drawing.Size(289, 948);
             this.functionListBox2.TabIndex = 0;
             // 
             // functionGroupBox3
@@ -99,7 +99,7 @@ namespace ElementIdFunction
             this.functionGroupBox3.Controls.Add(this.functionlistBox3);
             this.functionGroupBox3.Location = new System.Drawing.Point(677, 12);
             this.functionGroupBox3.Name = "functionGroupBox3";
-            this.functionGroupBox3.Size = new System.Drawing.Size(302, 705);
+            this.functionGroupBox3.Size = new System.Drawing.Size(302, 992);
             this.functionGroupBox3.TabIndex = 2;
             this.functionGroupBox3.TabStop = false;
             this.functionGroupBox3.Text = "Parametri della famiglia";
@@ -110,7 +110,7 @@ namespace ElementIdFunction
             this.functionlistBox3.ItemHeight = 16;
             this.functionlistBox3.Location = new System.Drawing.Point(6, 30);
             this.functionlistBox3.Name = "functionlistBox3";
-            this.functionlistBox3.Size = new System.Drawing.Size(289, 660);
+            this.functionlistBox3.Size = new System.Drawing.Size(289, 948);
             this.functionlistBox3.TabIndex = 0;
             // 
             // groupBox1
@@ -118,10 +118,10 @@ namespace ElementIdFunction
             this.groupBox1.Controls.Add(this.functionListBox4);
             this.groupBox1.Location = new System.Drawing.Point(1011, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(302, 705);
+            this.groupBox1.Size = new System.Drawing.Size(302, 992);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Dimensioni dell\'elemento";
+            this.groupBox1.Text = "Parametri dimensionali dell\'elemento";
             // 
             // functionListBox4
             // 
@@ -129,12 +129,12 @@ namespace ElementIdFunction
             this.functionListBox4.ItemHeight = 16;
             this.functionListBox4.Location = new System.Drawing.Point(6, 30);
             this.functionListBox4.Name = "functionListBox4";
-            this.functionListBox4.Size = new System.Drawing.Size(289, 660);
+            this.functionListBox4.Size = new System.Drawing.Size(289, 948);
             this.functionListBox4.TabIndex = 0;
             // 
             // familyTypeTestBox
             // 
-            this.familyTypeTestBox.Location = new System.Drawing.Point(1017, 731);
+            this.familyTypeTestBox.Location = new System.Drawing.Point(1002, 1021);
             this.familyTypeTestBox.Name = "familyTypeTestBox";
             this.familyTypeTestBox.Size = new System.Drawing.Size(206, 22);
             this.familyTypeTestBox.TabIndex = 4;
@@ -142,7 +142,7 @@ namespace ElementIdFunction
             // familyTypeLabel
             // 
             this.familyTypeLabel.AutoSize = true;
-            this.familyTypeLabel.Location = new System.Drawing.Point(832, 733);
+            this.familyTypeLabel.Location = new System.Drawing.Point(817, 1023);
             this.familyTypeLabel.Name = "familyTypeLabel";
             this.familyTypeLabel.Size = new System.Drawing.Size(171, 17);
             this.familyTypeLabel.TabIndex = 5;
@@ -152,7 +152,7 @@ namespace ElementIdFunction
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1340, 765);
+            this.ClientSize = new System.Drawing.Size(1340, 1055);
             this.Controls.Add(this.familyTypeLabel);
             this.Controls.Add(this.familyTypeTestBox);
             this.Controls.Add(this.groupBox1);
